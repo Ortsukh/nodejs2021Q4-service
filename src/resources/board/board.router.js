@@ -1,5 +1,3 @@
-
-
 const Board = require('./board.model');
 const boardService = require('./board.service');
 
@@ -15,9 +13,6 @@ function boardRouter(router, opt, done) {
   res.send(board);
 });
 
-
-
-
   router.get('/:id', async  (req, res) => {
 
     try {
@@ -28,7 +23,6 @@ function boardRouter(router, opt, done) {
     }
  
 });
-
 
   router.post('/', async  (req, res) => {
 
@@ -53,9 +47,7 @@ function boardRouter(router, opt, done) {
    
     await boardService.remove(req.params.id);
 
-    res.code(204);
-   
-    
+    res.code(204);  
 });
 done()
 }

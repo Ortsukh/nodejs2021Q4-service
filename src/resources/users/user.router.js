@@ -1,8 +1,5 @@
-// const router = require('express').Router();
-
 const User = require('./user.model');
 const usersService = require('./user.service');
-
 
 function userRouter(router, opt, done) {
   router.get('/', async  (req, res) => {
@@ -16,13 +13,11 @@ function userRouter(router, opt, done) {
   res.send(users.map(User.toResponse));
 });
 
-
   router.get('/:id', async  (req, res) => {
 
   const user = await usersService.get(req.params.id);
   res.code(200).send(User.toResponse(user));
 });
-
 
   router.post('/', async  (req, res) => {
   

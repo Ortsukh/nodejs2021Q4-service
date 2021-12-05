@@ -1,4 +1,3 @@
-
 const Task = require('./tasks.model');
 const tasksService = require('./tasks.service');
 
@@ -12,7 +11,6 @@ function taskRouter(router, opt, done) {
   }
   res.send(tasks);
 });
-
 
   router.get('/:id', async  (req, res) => {
   try {
@@ -42,7 +40,6 @@ function taskRouter(router, opt, done) {
 })
 
   router.put('/:id', async  (req, res) => {
-
 
   const params = {title : req.body.title,
     order : req.body.order,
