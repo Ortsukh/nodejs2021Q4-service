@@ -2,15 +2,20 @@
 const DBUsers = [];
 const DBBoard = [];
 let DBTasks = [];
-const getAllUsers = () => DBUsers.slice(0);
-const getUser = (id) => DBUsers.filter((user) => user.id === id)[0];
-const getIndexUser = (id) => DBUsers.findIndex((el) => el.id === id);
-const createUser = (user) => {
+const getAllUsers = () => DBUsers;
+const getIndexUser = async (id) => DBUsers.findIndex((user) => user.id === id);
+const getUser = async (id) => {
+    const index = await getIndexUser(id);
+    // DBUsers.filter((user) => user.id === id)[0];
+    return DBUsers[index];
+};
+const createUser = async (user) => {
+    console.log(user);
     DBUsers.push(user);
     return user;
 };
-const updateUser = (id, user) => {
-    const index = getIndexUser(id);
+const updateUser = async (id, user) => {
+    const index = await getIndexUser(id);
     if (index === -1) {
         return "not found";
     }
@@ -20,13 +25,10 @@ const updateUser = (id, user) => {
     userId.password = user.password;
     return userId;
 };
-const deleteUser = (id) => {
-    const userIndex = getIndexUser(id);
+const deleteUser = async (id) => {
+    const userIndex = await getIndexUser(id);
     if (userIndex > -1) {
         DBUsers.splice(userIndex, 1);
-    }
-    else {
-        throw new Error(`the user with ${id} was not found`);
     }
     DBTasks.forEach((el) => {
         let tmp;
@@ -36,35 +38,49 @@ const deleteUser = (id) => {
         }
     });
 };
-const getAllBoards = () => DBBoard.slice(0);
-const getBoard = (id) => DBBoard.filter((el) => el.id === id)[0];
-const getIndexBoard = (id) => DBBoard.findIndex((el) => el.id === id);
-const createBoard = (board) => {
+const getAllBoards = async () => DBBoard;
+// const getBoard =  async(id:string) => DBBoard.filter((el) => el.id === id)[0];
+const getIndexBoard = async (id) => DBBoard.findIndex((el) => el.id === id);
+const getBoard = async (id) => {
+    const index = await getIndexBoard(id);
+    console.log(index);
+    if (index === -1)
+        return "not found";
+    return DBBoard[index];
+};
+const createBoard = async (board) => {
     DBBoard.push(board);
     return board;
 };
-const updateBoard = (id, board) => {
-    const boardId = getBoard(id);
+const updateBoard = async (id, board) => {
+    const boardId = await getBoard(id);
     boardId.title = board.title;
     boardId.columns = board.columns;
     return boardId;
 };
-const removeBoard = (id) => {
-    const boardIndex = getIndexBoard(id);
-    if (boardIndex > -1) {
-        DBBoard.splice(boardIndex, 1);
+const removeBoard = async (id) => {
+    const boardIndex = await getIndexBoard(id);
+    if (boardIndex === -1) {
+        return "Not Found";
     }
+    DBBoard.splice(boardIndex, 1);
     DBTasks = DBTasks.filter((task) => task.boardId !== id);
+    return true;
 };
-const getAllTasks = () => DBTasks.slice(0);
-const getTask = (id) => DBTasks.filter((el) => el.id === id)[0];
-const getIndexTask = (id) => DBTasks.findIndex((el) => el.id === id);
-const createTask = (task) => {
+const getAllTasks = async () => DBTasks.slice(0);
+const getIndexTask = async (id) => DBTasks.findIndex((el) => el.id === id);
+const getTask = async (id) => {
+    const index = await getIndexTask(id);
+    if (index === -1)
+        return "Not Found";
+    return DBTasks[index];
+};
+const createTask = async (task) => {
     DBTasks.push(task);
     return task;
 };
-const updateTask = (id, task) => {
-    const taskdId = getTask(id);
+const updateTask = async (id, task) => {
+    const taskdId = await getTask(id);
     taskdId.order = task.order;
     taskdId.description = task.description;
     taskdId.userId = task.userId;
@@ -75,9 +91,11 @@ const updateTask = (id, task) => {
 };
 const removeTask = async (id) => {
     const taskIndex = await getIndexTask(id);
-    if (taskIndex > -1) {
-        DBTasks.splice(taskIndex, 1);
+    if (taskIndex === -1) {
+        return "Not Found";
     }
+    DBTasks.splice(taskIndex, 1);
+    return true;
 };
 module.exports = {
     getAllUsers,

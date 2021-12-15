@@ -7,7 +7,8 @@ const inMemoryDb_1 = __importDefault(require("../../common/inMemoryDb"));
 const getAll = async () => inMemoryDb_1.default.getAllBoards();
 const get = async (id) => {
     const board = await inMemoryDb_1.default.getBoard(id);
-    if (!board) {
+    console.log(board);
+    if (board === "not found") {
         throw new Error(`the board with ${id} was not found`);
     }
     return board;

@@ -40,6 +40,8 @@ const taskRouter: FastifyPluginAsync = async (router): Promise<void> => {
 
   router.post('/', async(request, response) => {
     const body = request.body as ITask
+    const params = request.params as ITask
+
 
     const task =await tasksService.create(
    
@@ -49,7 +51,7 @@ const taskRouter: FastifyPluginAsync = async (router): Promise<void> => {
         order : body.order,
         description : body.description,
         userId : body.userId,
-        boardId : body.boardId,
+        boardId : params.boardId,
         columnId : body.columnId,
       }),
     );
