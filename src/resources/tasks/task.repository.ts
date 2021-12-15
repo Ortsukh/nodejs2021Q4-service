@@ -12,11 +12,13 @@ interface ITask {
   columnId : string,
 }
 const get = async (id:string) => {
-  const task = DB.getTask(id);
+  const task = await DB.getTask(id);
 
-  if (!task){
-    throw new Error(`the task with ${id} was not found`);
-  }
+
+if (task === "Not Found"){
+  throw new Error(`the board with ${id} was not found`);
+}
+return task;
   return task;
 };
 

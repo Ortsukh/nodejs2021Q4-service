@@ -76,10 +76,16 @@ const deleteUser = async (id:string) => {
 };
 const getAllBoards =  async () => DBBoard;
 
-const getBoard =  async(id:string) => DBBoard.filter((el) => el.id === id)[0];
+// const getBoard =  async(id:string) => DBBoard.filter((el) => el.id === id)[0];
 
 const getIndexBoard = async (id:string) => DBBoard.findIndex((el) => el.id === id);
-
+const getBoard = async (id:string) =>{
+  const index = await getIndexBoard(id)
+  console.log(index);
+  
+  if(index === -1) return "not found"
+  return DBBoard[index]
+} 
 const createBoard =  async(board:IBoard) => {
 
   DBBoard.push(board);
@@ -95,21 +101,31 @@ const updateBoard =  async(id:string, board:IBoard) => {
 
 const removeBoard = async (id:string) => {
   const boardIndex = await getIndexBoard(id);
-
-  if (boardIndex > -1) {
-    DBBoard.splice(boardIndex, 1);
+  if(boardIndex === -1){
+    return "Not Found"
   }
-  console.log(id);
+  
+  DBBoard.splice(boardIndex, 1);
+  
+  
   
   DBTasks = DBTasks.filter((task) => task.boardId !== id);
+  return true
 
 };
 const getAllTasks =  async() => DBTasks.slice(0);
 
-const getTask =async  (id:string) => DBTasks.filter((el) => el.id === id)[0];
+
 
 const getIndexTask = async (id:string) => DBTasks.findIndex((el) => el.id === id);
-
+const getTask = async  (id:string) =>{
+ 
+    const index = await getIndexTask(id)
+    if(index === -1) return "Not Found"
+   
+    return DBTasks[index]
+  
+} 
 const createTask = async (task:ParamsTask) => {
   DBTasks.push(task);
   return task;
@@ -127,12 +143,14 @@ const updateTask = async (id:string, task:ParamsTask) => {
   return taskdId;
 };
 
-const removeTask =async  (id:string) => {
+const removeTask = async  (id:string) => {
   const taskIndex = await getIndexTask(id);
-
-  if (taskIndex > -1) {
-    DBTasks.splice(taskIndex, 1);
+  if(taskIndex === -1){
+    return "Not Found"
   }
+    DBTasks.splice(taskIndex, 1);
+    return true
+  
 
 };
 

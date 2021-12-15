@@ -31,7 +31,6 @@ const userRouter: FastifyPluginAsync = async (router): Promise<void> => {
   });
 
   router.post('/', async (request, response)=> {
-console.log(request.body);
 
     const {login: loginProps, password: passwordProps, name: nameProps} = request.body as Params
     const user = await usersService.create(
@@ -42,9 +41,9 @@ console.log(request.body);
       })
     );
    
-    console.log(user);
     
-    response.code(201).send(user);
+    
+    response.code(201).send(User.toResponse(user));
   });
 
   router.put('/:id',async (request, response) => {
