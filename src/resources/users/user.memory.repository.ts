@@ -7,9 +7,16 @@ interface Params {
   login: string;
   password: string;
 }
-
+/**
+ * Get all userd
+ * @returns all users
+ */
 const getAll = async () => DB.getAllUsers();
-
+/**
+ * 
+ * @param id current user ID
+ * @returns user with current ID or error
+ */
 const get = async (id:string)=> {
   const user = DB.getUser(id);
 
@@ -18,11 +25,24 @@ const get = async (id:string)=> {
   }
   return user;
 };
-
+/**
+ * 
+ * @param user new user params
+ * @returns new user 
+ */
 const create = async (user:Params) => DB.createUser(user);
-
+/**
+ * 
+ * @param id current user ID
+ * @param user updated user params
+ * @returns updated user
+ */
 const update = async (id:string, user:Params) => DB.updateUser(id, user);
-
+/**
+ * 
+ * @param id current user ID
+ * @returns string "not found" or true
+ */
 const remove = (id:string) => DB.deleteUser(id);
 
 export = { getAll, get, create, update, remove };

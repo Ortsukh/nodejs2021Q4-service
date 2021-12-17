@@ -10,7 +10,11 @@ interface IColumn {
   title: string;
   columns?: IColumn[];
 }
-
+/**
+ * 
+ * @param columns array of columns this board params
+ * @returns return array of columns with own id
+ */
 function initColumns(columns:IColumn[] | undefined) {
   if(Array.isArray(columns) && columns !== undefined) {
     return columns.map((column: IColumn )=> {

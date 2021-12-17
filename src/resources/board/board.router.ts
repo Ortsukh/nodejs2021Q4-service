@@ -15,20 +15,30 @@ interface IColumn {
   title: string;
   columns?: IColumn[];
 }
-
+/**
+ *
+ * @param router module of fastify
+ * return void
+ */
 const boardRouter: FastifyPluginAsync = async (router): Promise<void> => {
+   /**
+ * Get all tasks
+ * @returns all tasks
+ */ 
   router.get('/',  async(_, response) => {
 
     const board = await boardService.getAll();
     if (!board) {
-
       response.code(404);
-
     }
     response.code(200)
     response.send(board);
   });
-
+/**
+ * 
+ * @param id current task ID
+ * @returns task with current ID or string Not Found with code
+ */
   router.get('/:id', async(request, response) => {
     const params = request.params as IBoard
     try {
@@ -41,7 +51,11 @@ const boardRouter: FastifyPluginAsync = async (router): Promise<void> => {
     }
  
   });
-
+/**
+ * 
+ * @param task new task params
+ * @returns new task 
+ */
   router.post('/', async(request, response) => {
     const body = request.body as IBoard
     const board = await boardService.create(
@@ -52,23 +66,26 @@ const boardRouter: FastifyPluginAsync = async (router): Promise<void> => {
     );
     response.code(201).send(board);
   });
-
+/**
+ * 
+ * @param id current task ID
+ * @param task updated task params
+ * @returns updated task
+ */
   router.put('/:id', async(request, response) => {
     const body = request.body as IBoard
     const params = request.params as IBoard
-
-    // const params = { title: req.body.title, columns: req.body.columns };
-  
     const board =await boardService.update(params.id, body);
     response.code(200).send(board);
   });
-
+/**
+ * 
+ * @param id current task ID
+ * @returns string "not found" or true
+ */
   router.delete('/:id',async(request, response)  => {
     const params = request.params as IBoard
-   
     const result = await boardService.remove(params.id);
-    console.log(result);
-    
     if (typeof result === 'string') {
       response.code(404);
       response.send(result);
