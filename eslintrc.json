@@ -17,7 +17,7 @@
   },
   "settings": {
     "noInlineConfig": true,
-		"import/extensions": [".ts",".js"],
+		"import/extensions": [".ts"],
 		"import/ignore":["./src"]
   },
   "extends": [
