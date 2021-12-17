@@ -1,28 +1,28 @@
 import { v4 as uuidv4 } from 'uuid';
 
 interface ITask {
-  id ?: string,
-  title : string,
-  order : number,
-  description : string,
-  userId : string | null,
-  boardId : string,
-  columnId : string,
+  id?: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string | null;
+  boardId: string;
+  columnId: string;
 }
 class Task {
-  id : string;
+  id: string;
 
-  title : string;
+  title: string;
 
-  order : number;
+  order: number;
 
-  description : string;
+  description: string;
 
-  userId : string | null;
+  userId: string | null;
 
-  boardId : string;
+  boardId: string;
 
-  columnId : string;
+  columnId: string;
 
   constructor(props: ITask) {
     this.id = uuidv4();
@@ -33,7 +33,5 @@ class Task {
     this.boardId = props.boardId;
     this.columnId = props.columnId;
   }
-
-  
 }
 export default Task;
