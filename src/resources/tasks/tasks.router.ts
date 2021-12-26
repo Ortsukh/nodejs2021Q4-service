@@ -26,9 +26,6 @@ const taskRouter: FastifyPluginAsync = async (router): Promise<void> => {
    */
   router.get('/', async (_, response) => {
     const tasks = await tasksService.getAll();
-    if (!tasks) {
-      response.code(404);
-    }
     response.send(tasks);
   });
   /**
@@ -38,12 +35,9 @@ const taskRouter: FastifyPluginAsync = async (router): Promise<void> => {
    */
   router.get('/:id', async (request, response) => {
     const params = request.params as ITask;
-    try {
       const task = await tasksService.get(params.id);
       response.code(200).send(task);
-    } catch (error) {
-      response.code(404).send('Not Found');
-    }
+    
   });
   /**
    * Create new task
@@ -88,13 +82,9 @@ const taskRouter: FastifyPluginAsync = async (router): Promise<void> => {
   router.delete('/:id', async (request, response) => {
     const params = request.params as ITask;
 
-    const result = await tasksService.remove(params.id);
-    if (typeof result === 'string') {
-      response.code(404);
-      response.send(result);
-    } else {
+    await tasksService.remove(params.id);
+   
       response.code(204);
-    }
   });
 };
 export default taskRouter;

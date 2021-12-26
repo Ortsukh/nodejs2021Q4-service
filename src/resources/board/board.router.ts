@@ -41,15 +41,8 @@ const boardRouter: FastifyPluginAsync = async (router): Promise<void> => {
  */
   router.get('/:id', async(request, response) => {
     const params = request.params as IBoard
-    try {
       const board = await boardService.get(params.id);
-
       response.code(200).send(board);
-    } catch (error) {
-      
-      response.code(404).send("Not Found");
-    }
- 
   });
 /**
  * 
@@ -85,12 +78,8 @@ const boardRouter: FastifyPluginAsync = async (router): Promise<void> => {
  */
   router.delete('/:id',async(request, response)  => {
     const params = request.params as IBoard
-    const result = await boardService.remove(params.id);
-    if (typeof result === 'string') {
-      response.code(404);
-      response.send(result);
-    }
-     response.code(204);  
+    await boardService.remove(params.id);
+    response.code(204);  
   });
   
 }

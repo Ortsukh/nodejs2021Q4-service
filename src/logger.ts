@@ -44,6 +44,17 @@ const logger = async (
       process.exit(1);
     });
   });
+  fastify.addHook(
+    'onError',
+     (_req, _rep, e: Error, done) => {
+         console.log(123);
+         
+      const logMessage = `ERROR: ${getDate()} ${e.message}\n`;
+      errorFileWriteStream.write(logMessage, () => {
+        done();
+      });
+    }
+  );
   fastify.addHook('onSend', async (req, reply) => {
    
       const string = `Date: ${getDate()}, req.url: ${req.url}, req.body:${req.body}, req.query: ${JSON.stringify(req.query)}, reply.statusCode:${reply.statusCode} \n`

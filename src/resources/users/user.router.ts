@@ -23,10 +23,6 @@ const userRouter: FastifyPluginAsync = async (router): Promise<void> => {
    */
   router.get('/', async (_, response) => {
     const users = await usersService.getAll();
-    if (!users) {
-      response.code(404);
-    }
-
     response.send(users);
   });
 

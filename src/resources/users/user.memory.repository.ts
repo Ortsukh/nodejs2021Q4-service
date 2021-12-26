@@ -19,10 +19,6 @@ const getAll = async () => DB.getAllUsers();
  */
 const get = async (id: string) => {
   const user = await DB.getUser(id);
-
-  if (user === "not found") {
-    throw new Error(`the user with ${id} was not found`);
-  }
   return user;
 };
 /**

@@ -22,9 +22,6 @@ const getAll = async () => DB.getAllBoards();
  */
 const get = async (id:string) => {
   const board = await DB.getBoard(id);
-  if (board === "not found"){
-    throw new Error(`the board with ${id} was not found`);
-  }
   return board;
 };
 /**

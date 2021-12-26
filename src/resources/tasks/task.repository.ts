@@ -21,9 +21,6 @@ const getAll = async () => DB.getAllTasks();
  */
 const get = async (id: string) => {
   const task = await DB.getTask(id);
-  if (task === 'Not Found') {
-    throw new Error(`the board with ${id} was not found`);
-  }
   return task;
 };
 /**

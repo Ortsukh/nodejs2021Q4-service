@@ -1,3 +1,5 @@
+import ApiError from '../resources/errors/api-error'
+
 interface ParamsUser {
   id?: string;
   name: string;
@@ -49,7 +51,7 @@ const getIndexUser = async (id: string) =>
 const getUser = async (id: string) => {
   const index = await getIndexUser(id);
   if (index === -1) {
-    return 'not found';
+    throw new ApiError(404, `the user with id:${id} was not found`);
   }
   return DBUsers[index];
 };
@@ -71,7 +73,7 @@ const createUser = async (user: ParamsUser) => {
 const updateUser = async (id: string, user: ParamsUser) => {
   const index = await getIndexUser(id);
   if (index === -1) {
-    return 'not found';
+    throw new ApiError(404, `the board with id:${id} was not found`);
   }
   const userId = DBUsers[index] as ParamsUser;
   userId.name = user.name;
@@ -118,7 +120,9 @@ const getIndexBoard = async (id: string) =>
  */
 const getBoard = async (id: string) => {
   const index = await getIndexBoard(id);
-  if (index === -1) return 'not found';
+  if (index === -1) {
+    throw new ApiError(404, `the board with id:${id} was not found`)
+  } 
   return DBBoard[index];
 };
 /**
@@ -150,7 +154,7 @@ const updateBoard = async (id: string, board: IBoard) => {
 const removeBoard = async (id: string) => {
   const boardIndex = await getIndexBoard(id);
   if (boardIndex === -1) {
-    return 'Not Found';
+    throw new ApiError(404, `the board with id:${id} was not found`);
   }
   DBBoard.splice(boardIndex, 1);
   DBTasks = DBTasks.filter((task) => task.boardId !== id);
@@ -175,7 +179,10 @@ const getIndexTask = async (id: string) =>
  */
 const getTask = async (id: string) => {
   const index = await getIndexTask(id);
-  if (index === -1) return 'Not Found';
+  if (index === -1) {
+    throw new ApiError(404, `the task with id:${id} was not found`);
+
+  } 
   return DBTasks[index];
 };
 /**
@@ -211,7 +218,8 @@ const updateTask = async (id: string, task: ParamsTask) => {
 const removeTask = async (id: string) => {
   const taskIndex = await getIndexTask(id);
   if (taskIndex === -1) {
-    return 'Not Found';
+    throw new ApiError(404, `the task with id:${id} was not found`);
+
   }
   DBTasks.splice(taskIndex, 1);
   return true;
