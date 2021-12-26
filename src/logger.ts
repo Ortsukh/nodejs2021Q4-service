@@ -1,8 +1,7 @@
-import { FastifyInstance} from 'fastify';
+import { FastifyInstance } from 'fastify';
 import fs from 'fs';
 import path from 'path';
 import config from './common/config';
-
 
 const logFilePath = path.resolve(__dirname, config.COMMON_LOG_FILE);
 const errorLogFilePath = path.resolve(__dirname, config.ERROR_LOG_FILE);
@@ -18,15 +17,13 @@ const getDate = (): string => new Date().toLocaleString();
  * @param fastify Fastify Instance
  * @returns void (Promise)
  */
-const logger = async (
-  fastify: FastifyInstance
-) => {
-    const errorFileWriteStream = fs.createWriteStream(errorLogFilePath,{
-        flags: 'a'
-    });
-    const logFileWriteStream = fs.createWriteStream(logFilePath,{
-        flags: 'a'
-    });
+const logger = async (fastify: FastifyInstance) => {
+  const errorFileWriteStream = fs.createWriteStream(errorLogFilePath, {
+    flags: 'a',
+  });
+  const logFileWriteStream = fs.createWriteStream(logFilePath, {
+    flags: 'a',
+  });
   process.on('uncaughtException', (e) => {
     const errorMessage = `ERROR: ${getDate()} ${e.message}\n`;
 
@@ -44,26 +41,22 @@ const logger = async (
       process.exit(1);
     });
   });
-  fastify.addHook(
-    'onError',
-     (_req, _rep, e: Error, done) => {
-         console.log(123);
-         
-      const logMessage = `ERROR: ${getDate()} ${e.message}\n`;
-      errorFileWriteStream.write(logMessage, () => {
-        done();
-      });
-    }
-  );
-  fastify.addHook('onSend', async (req, reply) => {
-   
-      const string = `Date: ${getDate()}, req.url: ${req.url}, req.body:${req.body}, req.query: ${JSON.stringify(req.query)}, reply.statusCode:${reply.statusCode} \n`
-      await logFileWriteStream.write(string, () => {
-        console.log(string); // eslint-disable-line no-console
-      });
-    
+  fastify.addHook('onError', (_req, _rep, e: Error, done) => {
+    const logMessage = `ERROR: ${getDate()} ${e.message}\n`;
+    errorFileWriteStream.write(logMessage, () => {
+      done();
     });
-  
+  });
+  fastify.addHook('onSend', async (req, reply) => {
+    const string = `Date: ${getDate()}, req.url: ${req.url}, req.body:${
+      req.body
+    }, req.query: ${JSON.stringify(req.query)}, reply.statusCode:${
+      reply.statusCode
+    } \n`;
+    await logFileWriteStream.write(string, () => {
+      console.log(string); // eslint-disable-line no-console
+    });
+  });
 };
 
 export default logger;
