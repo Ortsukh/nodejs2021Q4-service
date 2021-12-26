@@ -37,13 +37,16 @@ const userRouter: FastifyPluginAsync = async (router): Promise<void> => {
    */
   router.get('/:id', async (request, response) => {
     const params = request.params as Params;
-    /**
-     * @param params.id - current user id
-     * @return return user with current id
-     */
+
+    try{
     const user = await usersService.get(params.id);
     response.code(200);
     response.send(user);
+  }
+    catch(error){
+      response.code(404).send("Not Found");
+    }
+   
   });
 
   /**

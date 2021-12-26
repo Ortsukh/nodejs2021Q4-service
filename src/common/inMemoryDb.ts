@@ -48,6 +48,9 @@ const getIndexUser = async (id: string) =>
  */
 const getUser = async (id: string) => {
   const index = await getIndexUser(id);
+  if (index === -1) {
+    return 'not found';
+  }
   return DBUsers[index];
 };
 /**

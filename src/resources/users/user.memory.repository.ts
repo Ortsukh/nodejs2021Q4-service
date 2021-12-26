@@ -18,9 +18,9 @@ const getAll = async () => DB.getAllUsers();
  * @returns user with current ID or error
  */
 const get = async (id: string) => {
-  const user = DB.getUser(id);
+  const user = await DB.getUser(id);
 
-  if (!user) {
+  if (user === "not found") {
     throw new Error(`the user with ${id} was not found`);
   }
   return user;
