@@ -19,3 +19,12 @@ npm install
 ```
 docker-compose up       
 ```
+## If you want to see all images 
+
+```
+docker image ls       
+```
+## If you want to see all networks
+```
+docker network ls           
+```
