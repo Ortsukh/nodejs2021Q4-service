@@ -12,7 +12,8 @@ server.setErrorHandler((e: Error, _req: FastifyRequest, res: FastifyReply) => {
   if (e instanceof ApiError) {
     res.status(e.statusCode).send(e);
   }
-  res.status(500).send({ message: 'Unexpected error' });
+  res.status(500);
+
 });
 logger(server);
 

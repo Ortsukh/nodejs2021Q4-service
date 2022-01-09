@@ -11,6 +11,6 @@ export default {
   MONGO_CONNECTION_STRING: process.env['MONGO_CONNECTION_STRING'],
   JWT_SECRET_KEY: process.env['JWT_SECRET_KEY'],
   AUTH_MODE: process.env['AUTH_MODE'] === 'true',
-  COMMON_LOG_FILE: '../commonLog.txt',
-  ERROR_LOG_FILE: '../errorLog.txt'
+  COMMON_LOG_FILE: 'commonLog.txt',
+  ERROR_LOG_FILE: 'errorLog.txt'
 };
