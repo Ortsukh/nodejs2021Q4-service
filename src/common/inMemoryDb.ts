@@ -1,12 +1,11 @@
-
 import { getConnection, EntityTarget, Repository, BaseEntity } from 'typeorm';
 import dotenv from 'dotenv';
 import path from 'path';
-import ApiError from '../resources/errors/api-error'
+import ApiError from '../resources/errors/api-error';
 import UserEntity from '../entities/user-entity';
 import BoardEntity from '../entities/board-entity';
 import TaskEntity from '../entities/task-entity';
-import ormConfig from '../common/orm-config'
+import ormConfig from '../common/orm-config';
 
 dotenv.config({
   path: path.join(__dirname, '../../.env'),
@@ -53,12 +52,11 @@ const getRepo = <T extends BaseEntity>(
  * @returns all users
  */
 // const getAllUsers = () => DBUsers;
-const getAllUsers =  ()=> {
+const getAllUsers = () => {
   const repo = getRepo(UserEntity);
-  const users =  repo.find({ where: {} });
+  const users = repo.find({ where: {} });
   return users;
-  };
-
+};
 
 /**
  *
@@ -79,7 +77,7 @@ const getUser = async (id: string) => {
     throw new ApiError(404, `the user with id:${id} was not found`);
   }
 
-  return resultUser ;
+  return resultUser;
 };
 /**
  *
@@ -116,13 +114,13 @@ const updateUser = async (id: string, newUser: ParamsUser) => {
 
   const resultUser: ParamsUser | undefined = await repo.findOne(id);
   if (!resultUser) {
-      throw new ApiError(404, `the board with id:${id} was not found`);
-    }
+    throw new ApiError(404, `the board with id:${id} was not found`);
+  }
   await repo.update(id, newUser);
 
   const updatedUser = await repo.findOne(id);
 
-  return updatedUser ;
+  return updatedUser;
 };
 /**
  *
@@ -146,13 +144,13 @@ const deleteUser = async (id: string) => {
 
   const resultUser: ParamsUser | undefined = await repo.findOne(id);
   if (!resultUser) {
-      throw new ApiError(404, `the board with id:${id} was not found`);
-    }
-  
+    throw new ApiError(404, `the board with id:${id} was not found`);
+  }
+
   await repo.delete(id);
   const repoTask = getRepo(TaskEntity);
-  await repoTask.update({ userId : id }, { userId: null });
-  return true
+  await repoTask.update({ userId: id }, { userId: null });
+  return true;
 };
 /**
  * Get all boards
@@ -161,7 +159,7 @@ const deleteUser = async (id: string) => {
 // const getAllBoards = async () => DBBoard;
 const getAllBoards = async () => {
   const repo = getRepo(BoardEntity);
-  const boards =  repo.find({relations: ['columns']});
+  const boards = repo.find({ relations: ['columns'] });
   return boards;
 };
 /**
@@ -180,10 +178,10 @@ const getBoard = async (id: string) => {
   // const index = await getIndexBoard(id);
   const repo = getRepo(BoardEntity);
 
-  const resultBoard = await repo.findOne(id,{ relations: ['columns']});
+  const resultBoard = await repo.findOne(id, { relations: ['columns'] });
   if (!resultBoard) {
-    throw new ApiError(404, `the board with id:${id} was not found`)
-  } 
+    throw new ApiError(404, `the board with id:${id} was not found`);
+  }
   return resultBoard;
 };
 /**
@@ -215,13 +213,12 @@ const updateBoard = async (id: string, newBoard: IBoard) => {
 
   const resultBoard = await repo.findOne(id);
   if (!resultBoard) {
-    throw new ApiError(404, `the board with id:${id} was not found`)
-  } 
+    throw new ApiError(404, `the board with id:${id} was not found`);
+  }
   const updatedBoard = { ...resultBoard, ...newBoard };
   await repo.save(updatedBoard);
-  const savedBoard = await repo.findOne(id, {relations: ['columns']});
-  return savedBoard
-
+  const savedBoard = await repo.findOne(id, { relations: ['columns'] });
+  return savedBoard;
 };
 /**
  *
@@ -239,14 +236,14 @@ const removeBoard = async (id: string) => {
   const repo = getRepo(BoardEntity);
   const resultBoard = await repo.findOne(id);
   if (!resultBoard) {
-    throw new ApiError(404, `the board with id:${id} was not found`)
-  } 
+    throw new ApiError(404, `the board with id:${id} was not found`);
+  }
   await repo.delete(id);
   const repoTask = getRepo(TaskEntity);
 
   await repoTask.delete({ boardId: id });
 
-  return true
+  return true;
 };
 /**
  * Get all tasks
@@ -272,19 +269,19 @@ const getAllTasks = async (boardId: string) => {
  * @param id current task ID
  * @returns task with current ID or string Not Found
  */
-const getTask = async ( taskId: string) => {
+const getTask = async (taskId: string) => {
   // const index = await getIndexTask(id);
   // if (index === -1) {
   //   throw new ApiError(404, `the task with id:${id} was not found`);
 
-  // } 
+  // }
   // return DBTasks[index];
   const repo = getRepo(TaskEntity);
 
   const resultTasks = await repo.findOne({ id: taskId });
   if (!resultTasks) {
-      throw new ApiError(404, `the task with id:${taskId} was not found`);
-    } 
+    throw new ApiError(404, `the task with id:${taskId} was not found`);
+  }
 
   return resultTasks;
 };
@@ -310,7 +307,11 @@ const createTask = async (task: ParamsTask) => {
  * @param task updated task params
  * @returns updated task
  */
-const updateTask = async (boardId:string, taskId: string, newTask: ParamsTask) => {
+const updateTask = async (
+  boardId: string,
+  taskId: string,
+  newTask: ParamsTask
+) => {
   // const taskdId = (await getTask(id)) as ParamsTask;
   // taskdId.order = task.order;
   // taskdId.description = task.description;
@@ -327,22 +328,20 @@ const updateTask = async (boardId:string, taskId: string, newTask: ParamsTask) =
   });
   if (!resultTask) {
     throw new ApiError(404, `the task with id:${taskId} was not found`);
-
-  } 
-
+  }
 
   await repo.update(resultTask.id, newTask);
 
   const updatedTask = await repo.findOne({ boardId, id: taskId });
 
-  return updatedTask ;
+  return updatedTask;
 };
 /**
  *
  * @param id current task ID
  * @returns string "Not Found" or true
  */
-const removeTask = async ( taskId: string) => {
+const removeTask = async (taskId: string) => {
   // const taskIndex = await getIndexTask(id);
   // if (taskIndex === -1) {
   //   throw new ApiError(404, `the task with id:${id} was not found`);
@@ -350,11 +349,11 @@ const removeTask = async ( taskId: string) => {
   // }
   // DBTasks.splice(taskIndex, 1);
   const repo = getRepo(TaskEntity);
-  const resultTask = await repo.findOne({id: taskId});
+  const resultTask = await repo.findOne({ id: taskId });
   if (!resultTask) {
     throw new ApiError(404, `the task with id:${taskId} was not found`);
-  } 
-  await repo.delete({id: taskId });
+  }
+  await repo.delete({ id: taskId });
   return true;
 };
 
