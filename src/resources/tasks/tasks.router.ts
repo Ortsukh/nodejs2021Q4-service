@@ -24,8 +24,9 @@ const taskRouter: FastifyPluginAsync = async (router): Promise<void> => {
    *Get all tasks
    * @returns send all tasks and status code
    */
-  router.get('/', async (_, response) => {
-    const tasks = await tasksService.getAll();
+  router.get('/', async (request, response) => {
+    const {boardId} = request.params as ITask;
+    const tasks = await tasksService.getAll(boardId);
     response.send(tasks);
   });
   /**
@@ -35,7 +36,7 @@ const taskRouter: FastifyPluginAsync = async (router): Promise<void> => {
    */
   router.get('/:id', async (request, response) => {
     const params = request.params as ITask;
-      const task = await tasksService.get(params.id);
+      const task = await tasksService.get( params.id);
       response.code(200).send(task);
     
   });
@@ -71,7 +72,7 @@ const taskRouter: FastifyPluginAsync = async (router): Promise<void> => {
   router.put('/:id', async (request, response) => {
     const body = request.body as ITask;
     const params = request.params as ITask;
-    const task = await tasksService.update(params.id, body);
+    const task = await tasksService.update(params.boardId, params.id, body);
     response.code(200).send(task);
   });
   /**
@@ -82,7 +83,7 @@ const taskRouter: FastifyPluginAsync = async (router): Promise<void> => {
   router.delete('/:id', async (request, response) => {
     const params = request.params as ITask;
 
-    await tasksService.remove(params.id);
+    await tasksService.remove( params.id);
    
       response.code(204);
   });

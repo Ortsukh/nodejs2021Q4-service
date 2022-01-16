@@ -19,7 +19,8 @@
       "noImplicitReturns": true,
       "noFallthroughCasesInSwitch": true,
       "noUncheckedIndexedAccess": true,
-      "noImplicitAny": true
+      "noImplicitAny": true,
+      "strictPropertyInitialization": false
     },
     "exclude": ["node_modules/"],
     "include": ["./src/**/*.ts", "./src/**/*.js"]

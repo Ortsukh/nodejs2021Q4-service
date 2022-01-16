@@ -3,8 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import config from './common/config';
 
-const logFilePath = path.resolve(`${__dirname}/../logs` , config.COMMON_LOG_FILE);
-const errorLogFilePath = path.resolve(`${__dirname}/../logs`, config.ERROR_LOG_FILE);
+const logFilePath = path.resolve(`${__dirname}/../logs/` , config.COMMON_LOG_FILE);
+const errorLogFilePath = path.resolve(`${__dirname}/../logs/`, config.ERROR_LOG_FILE);
 
 /**
  * Returns current date and time in string

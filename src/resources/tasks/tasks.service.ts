@@ -13,13 +13,13 @@ interface ITask {
  * Get all tasks
  * @returns all tasks
  */
-const getAll = () => tasksRepo.getAll();
+const getAll = (boardId: string) => tasksRepo.getAll(boardId);
 /**
  *
  * @param id current task ID
  * @returns task with current ID or string Not Found
  */
-const get = (id: string) => tasksRepo.get(id);
+const get = ( taskId: string) => tasksRepo.get( taskId);
 /**
  *
  * @param task new task params
@@ -32,11 +32,11 @@ const create = (task: ITask) => tasksRepo.create(task);
  * @param task updated task params
  * @returns updated task
  */
-const update = (id: string, task: ITask) => tasksRepo.update(id, task);
+const update = (boardId:string, id: string, task: ITask) => tasksRepo.update(boardId, id, task);
 /**
  *
  * @param id current task ID
  * @returns string "Not Found" or true
  */
-const remove = (id: string) => tasksRepo.remove(id);
+const remove = ( id: string) => tasksRepo.remove( id);
 export = { getAll, get, create, update, remove };
