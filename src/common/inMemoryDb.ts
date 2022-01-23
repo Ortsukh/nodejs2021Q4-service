@@ -1,16 +1,15 @@
 import { getRepository } from 'typeorm';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
-import dotenv from 'dotenv';
-import path from 'path';
+import config from './config';
+
 import ApiError from '../resources/errors/api-error';
 import UserEntity from '../entities/user-entity';
 import BoardEntity from '../entities/board-entity';
 import TaskEntity from '../entities/task-entity';
 // import ormConfig from '../common/orm-config';
 
-dotenv.config({
-  path: path.join(__dirname, '../../.env'),
-});
 interface ParamsUser {
   id?: string;
   name: string;
@@ -45,16 +44,42 @@ interface IBoard {
 //   entity: EntityTarget<T>
 // ): Repository<T> => {
 
-  
 //   const repo = getRepositorysitory(entity);
 //   return repo;
 // };
+
+const getUserByLogin = async (loginNane: string) => {
+  const repo = getRepository(UserEntity);
+  const resultUser: ParamsUser | undefined = await repo.findOne({
+    login: loginNane,
+  });
+  return resultUser;
+};
+
+const login = async (loginStr: string, password: string) => {
+  const isLoginUser = await getUserByLogin(loginStr);
+
+  if (!isLoginUser) {
+    throw new ApiError(403, `Forbidden`);
+  }
+
+  const isPassEquals = await bcrypt.compare(password, isLoginUser.password);
+
+  if (!isPassEquals) {
+    throw new ApiError(403, `Forbidden`);
+  }
+  const tokenData = { userId: isLoginUser.id, login: isLoginUser.login };
+  const token = jwt.sign(tokenData, config.JWT_SECRET_KEY!);
+  return { token };
+};
+
 /**
  * Get all userd
  * @returns all users
  */
 // const getAllUsers = () => DBUsers;
 const getAllUsers = () => {
+
   const repo = getRepository(UserEntity);
   const users = repo.find({ where: {} });
   return users;
@@ -89,12 +114,8 @@ const getUser = async (id: string) => {
 const createUser = async (user: ParamsUser) => {
   // DBUsers.push(user);
   // return user;
- 
-  
-  const repo = getRepository(UserEntity);
-console.log(1);
 
-console.log(user);
+  const repo = getRepository(UserEntity);
 
   const newUser = repo.create(user);
 
@@ -380,4 +401,5 @@ export = {
   updateTask,
   removeTask,
   getTask,
+  login,
 };

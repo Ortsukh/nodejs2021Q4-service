@@ -6,6 +6,11 @@ interface Params {
     login: string;
     password: string;
   }
+
+
+
+
+
 /**
  * Get all userd
  * @returns all users
@@ -36,4 +41,4 @@ const update = (id:string, user:Params) => usersRepo.update(id, user);
  * @returns void
  */
 const remove = (id:string) => usersRepo.remove(id);
-export default { getAll, get, create, update, remove };
+export default { getAll, get, create, update, remove};

@@ -7,6 +7,7 @@ interface Params {
   login: string;
   password: string;
 }
+
 /**
  * Get all userd
  * @returns all users

@@ -19,6 +19,7 @@ interface Params {
  * return void
  */
 const userRouter: FastifyPluginAsync = async (router): Promise<void> => {
+  
   /**
    *Get all users
    * @returns send all users and status code

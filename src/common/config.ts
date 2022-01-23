@@ -13,4 +13,5 @@ export default {
   AUTH_MODE: process.env['AUTH_MODE'] === 'true',
   COMMON_LOG_FILE: 'commonLog.txt',
   ERROR_LOG_FILE: 'errorLog.txt'
+ 
 };

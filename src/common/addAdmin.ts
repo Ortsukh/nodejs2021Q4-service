@@ -26,13 +26,14 @@ const admin ={
 const getAdmin =async (loginNane:string) => {
     const repo = getRepository(UserEntity);
     const resultUser: Params | undefined = await repo.findOne({login:loginNane});
+    console.log(resultUser);
+    
     return resultUser
 }
 
 const addAdmin = async () =>{
    
 const isAdmin = await getAdmin(admin.login)
-console.log(isAdmin);
 admin.password =await getHashPass(passwordProps)
 if(!isAdmin) DB.createUser(new User(admin));
 return true
