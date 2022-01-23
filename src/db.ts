@@ -1,6 +1,6 @@
 import { Connection, createConnection } from 'typeorm';
 import 'reflect-metadata';
-// import ormConfig from './common/orm-config';
+import addAdminConfig from './common/addAdmin';
 
 let dbConnection: Connection | undefined;
 
@@ -16,10 +16,21 @@ const DBConnect = async (): Promise<void> => {
     console.log('DB successfully Connected...');
     await dbConnection.runMigrations();
     console.log('Migrations completed...');
+  
+   
+
   } catch (e) {
     console.log(e);
     console.log('DB is not connected!');
     process.exit(1);
+  }
+  try{
+     await addAdminConfig.addAdmin()
+    console.log('Admin added');
+    
+  }catch(e){
+    console.log('Admin is not added');
+    
   }
 };
 

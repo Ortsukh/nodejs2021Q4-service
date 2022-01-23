@@ -15,7 +15,6 @@
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
     "typeorm-m": "ts-node ./node_modules/typeorm/cli migration:generate -n test "
-
   },
   "keywords": [
     "rs",
@@ -52,11 +51,14 @@
     "@types/uuid": "^8.3.3",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
+    "bcrypt": "^5.0.1",
     "cross-env": "7.0.3",
     "dotenv": "10.0.0",
     "eslint-config-airbnb-typescript": "^16.1.0",
     "fastify": "^3.24.1",
+    "i": "^0.3.7",
     "nodemon": "2.0.15",
+    "npm": "^8.3.2",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
     "ts-node": "^10.4.0",

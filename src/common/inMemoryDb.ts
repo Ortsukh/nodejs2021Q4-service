@@ -89,10 +89,12 @@ const getUser = async (id: string) => {
 const createUser = async (user: ParamsUser) => {
   // DBUsers.push(user);
   // return user;
-  console.log(UserEntity);
+ 
   
   const repo = getRepository(UserEntity);
-console.log(repo);
+console.log(1);
+
+console.log(user);
 
   const newUser = repo.create(user);
 
