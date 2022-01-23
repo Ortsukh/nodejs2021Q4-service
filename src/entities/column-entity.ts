@@ -6,7 +6,7 @@ import {
     ManyToOne,
   } from 'typeorm';
   import BoardEntity from './board-entity';
-  
+
   @Entity({ name: 'column' })
   export default class ColumnEntity extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')

@@ -1,6 +1,6 @@
 import { Connection, createConnection } from 'typeorm';
 import 'reflect-metadata';
-import ormConfig from './common/orm-config';
+// import ormConfig from './common/orm-config';
 
 let dbConnection: Connection | undefined;
 
@@ -8,7 +8,7 @@ const DBConnect = async (): Promise<void> => {
   try {
     if (!dbConnection) {
       console.log('Creating new DB connection...');
-      dbConnection = await createConnection(ormConfig);
+      dbConnection = await createConnection();
     }
     if (dbConnection && !dbConnection.isConnected) {
       await dbConnection.connect();

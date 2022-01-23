@@ -1,11 +1,12 @@
-import { getConnection, EntityTarget, Repository, BaseEntity } from 'typeorm';
+import { getRepository } from 'typeorm';
+
 import dotenv from 'dotenv';
 import path from 'path';
 import ApiError from '../resources/errors/api-error';
 import UserEntity from '../entities/user-entity';
 import BoardEntity from '../entities/board-entity';
 import TaskEntity from '../entities/task-entity';
-import ormConfig from '../common/orm-config';
+// import ormConfig from '../common/orm-config';
 
 dotenv.config({
   path: path.join(__dirname, '../../.env'),
@@ -40,20 +41,21 @@ interface IBoard {
 // const DBBoard: IBoard[] = [];
 // const DBTasks: ParamsTask[] = [];
 
-const getRepo = <T extends BaseEntity>(
-  entity: EntityTarget<T>
-): Repository<T> => {
-  const connection = getConnection(ormConfig.name);
-  const repo = connection.getRepository(entity);
-  return repo;
-};
+// const getRepository = <T extends BaseEntity>(
+//   entity: EntityTarget<T>
+// ): Repository<T> => {
+
+  
+//   const repo = getRepositorysitory(entity);
+//   return repo;
+// };
 /**
  * Get all userd
  * @returns all users
  */
 // const getAllUsers = () => DBUsers;
 const getAllUsers = () => {
-  const repo = getRepo(UserEntity);
+  const repo = getRepository(UserEntity);
   const users = repo.find({ where: {} });
   return users;
 };
@@ -70,7 +72,7 @@ const getUser = async (id: string) => {
   // }
 
   // return DBUsers[index];
-  const repo = getRepo(UserEntity);
+  const repo = getRepository(UserEntity);
 
   const resultUser: ParamsUser | undefined = await repo.findOne(id);
   if (!resultUser) {
@@ -87,7 +89,10 @@ const getUser = async (id: string) => {
 const createUser = async (user: ParamsUser) => {
   // DBUsers.push(user);
   // return user;
-  const repo = getRepo(UserEntity);
+  console.log(UserEntity);
+  
+  const repo = getRepository(UserEntity);
+console.log(repo);
 
   const newUser = repo.create(user);
 
@@ -110,7 +115,7 @@ const updateUser = async (id: string, newUser: ParamsUser) => {
   // userId.login = user.login;
   // userId.password = user.password;
   // return userId;
-  const repo = getRepo(UserEntity);
+  const repo = getRepository(UserEntity);
 
   const resultUser: ParamsUser | undefined = await repo.findOne(id);
   if (!resultUser) {
@@ -140,7 +145,7 @@ const deleteUser = async (id: string) => {
   //     tmp.userId = null;
   //   }
   // });
-  const repo = getRepo(UserEntity);
+  const repo = getRepository(UserEntity);
 
   const resultUser: ParamsUser | undefined = await repo.findOne(id);
   if (!resultUser) {
@@ -148,7 +153,7 @@ const deleteUser = async (id: string) => {
   }
 
   await repo.delete(id);
-  const repoTask = getRepo(TaskEntity);
+  const repoTask = getRepository(TaskEntity);
   await repoTask.update({ userId: id }, { userId: null });
   return true;
 };
@@ -158,7 +163,7 @@ const deleteUser = async (id: string) => {
  */
 // const getAllBoards = async () => DBBoard;
 const getAllBoards = async () => {
-  const repo = getRepo(BoardEntity);
+  const repo = getRepository(BoardEntity);
   const boards = repo.find({ relations: ['columns'] });
   return boards;
 };
@@ -176,7 +181,7 @@ const getAllBoards = async () => {
  */
 const getBoard = async (id: string) => {
   // const index = await getIndexBoard(id);
-  const repo = getRepo(BoardEntity);
+  const repo = getRepository(BoardEntity);
 
   const resultBoard = await repo.findOne(id, { relations: ['columns'] });
   if (!resultBoard) {
@@ -192,7 +197,7 @@ const getBoard = async (id: string) => {
 const createBoard = async (board: IBoard) => {
   // DBBoard.push(board);
   // return board;
-  const repo = getRepo(BoardEntity);
+  const repo = getRepository(BoardEntity);
 
   await repo.save(board);
 
@@ -209,7 +214,7 @@ const updateBoard = async (id: string, newBoard: IBoard) => {
   // boardId.title = board.title;
   // boardId.columns = board.columns;
   // return boardId;
-  const repo = getRepo(BoardEntity);
+  const repo = getRepository(BoardEntity);
 
   const resultBoard = await repo.findOne(id);
   if (!resultBoard) {
@@ -233,13 +238,13 @@ const removeBoard = async (id: string) => {
   // DBBoard.splice(boardIndex, 1);
   // DBTasks = DBTasks.filter((task) => task.boardId !== id);
   // return true;
-  const repo = getRepo(BoardEntity);
+  const repo = getRepository(BoardEntity);
   const resultBoard = await repo.findOne(id);
   if (!resultBoard) {
     throw new ApiError(404, `the board with id:${id} was not found`);
   }
   await repo.delete(id);
-  const repoTask = getRepo(TaskEntity);
+  const repoTask = getRepository(TaskEntity);
 
   await repoTask.delete({ boardId: id });
 
@@ -251,7 +256,7 @@ const removeBoard = async (id: string) => {
  */
 // const getAllTasks = async () => DBTasks.slice(0);
 const getAllTasks = async (boardId: string) => {
-  const repo = getRepo(TaskEntity);
+  const repo = getRepository(TaskEntity);
 
   const resultTasks = await repo.find({ boardId });
 
@@ -276,7 +281,7 @@ const getTask = async (taskId: string) => {
 
   // }
   // return DBTasks[index];
-  const repo = getRepo(TaskEntity);
+  const repo = getRepository(TaskEntity);
 
   const resultTasks = await repo.findOne({ id: taskId });
   if (!resultTasks) {
@@ -293,7 +298,7 @@ const getTask = async (taskId: string) => {
 const createTask = async (task: ParamsTask) => {
   // DBTasks.push(task);
   // return task;
-  const repo = getRepo(TaskEntity);
+  const repo = getRepository(TaskEntity);
 
   const newTask = repo.create(task);
 
@@ -320,7 +325,7 @@ const updateTask = async (
   // taskdId.columnId = task.columnId;
   // taskdId.title = task.title;
   // return taskdId;
-  const repo = getRepo(TaskEntity);
+  const repo = getRepository(TaskEntity);
 
   const resultTask = await repo.findOne({
     boardId,
@@ -348,7 +353,7 @@ const removeTask = async (taskId: string) => {
 
   // }
   // DBTasks.splice(taskIndex, 1);
-  const repo = getRepo(TaskEntity);
+  const repo = getRepository(TaskEntity);
   const resultTask = await repo.findOne({ id: taskId });
   if (!resultTask) {
     throw new ApiError(404, `the task with id:${taskId} was not found`);
