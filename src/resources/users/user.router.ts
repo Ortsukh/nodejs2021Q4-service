@@ -1,8 +1,10 @@
 import { FastifyPluginAsync } from 'fastify';
 
+import bcrypt from 'bcrypt';
 import User from './user.model';
 
 import usersService from './user.service';
+
 
 interface Params {
   id: string;
@@ -56,14 +58,18 @@ const userRouter: FastifyPluginAsync = async (router): Promise<void> => {
       password: passwordProps,
       name: nameProps,
     } = request.body as Params;
+    const hashPassword = await bcrypt.hash(passwordProps, 3);
+
     /**
      * add new user
      * @returns new user
      */
     const user = await usersService.create(
+
+
       new User({
         login: loginProps,
-        password: passwordProps,
+        password: hashPassword,
         name: nameProps,
       })
     );
