@@ -26,7 +26,7 @@ const admin ={
 const getAdmin =async (loginNane:string) => {
     const repo = getRepository(UserEntity);
     const resultUser: Params | undefined = await repo.findOne({login:loginNane});
-    console.log(resultUser);
+  
     
     return resultUser
 }

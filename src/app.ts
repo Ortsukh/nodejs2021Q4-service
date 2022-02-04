@@ -6,7 +6,7 @@ import boardRouter from './resources/board/board.router';
 import taskRouter from './resources/tasks/tasks.router';
 import loginRouter from './resources/login/login.router';
 import ApiError from './resources/errors/api-error';
-import checkAuth from './common/checkauth';
+import checkAuth from './common/checkAuth';
 
 const server = fastify({ logger: true });
 server.addHook('onRequest', async (req, res) => {
