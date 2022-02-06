@@ -17,7 +17,7 @@
   },
   "settings": {
     "noInlineConfig": true,
-		"import/extensions": [".ts",".js"],
+		"import/extensions": [".ts"],
 		"import/ignore":["./src"]
   },
   "extends": [
@@ -39,6 +39,16 @@
 		"dot-notation":"off",
 		"node/no-missing-import": "off",
 		"import/no-unresolved":"off",
-    "@typescript-eslint/no-explicit-any": "error"
+    "@typescript-eslint/no-explicit-any": "off",
+    "class-methods-use-this": "off",
+    "no-console": "off",
+    "no-await-in-loop": "off",
+    "no-restricted-syntax": "off",
+    "no-return-await": "off",
+    "prefer-destructuring": "off",
+    "no-unneeded-ternary": "off",
+    "no-useless-constructor": "off",
+    "no-param-reassign": "off",
+    "@typescript-eslint/no-unused-vars": "off"
   }
 }

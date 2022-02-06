@@ -21,12 +21,12 @@ export class BoardsService {
   }
 
   async findAll() {
-    const boards = await this.boardsRepository.find();
+    const boards = await this.boardsRepository.find({relations: ['columns'] });
     return boards;
   }
 
   async findOne(id: string) {
-    const board = await this.boardsRepository.findOne(id);
+    const board = await this.boardsRepository.findOne(id, { relations: ['columns'] });
     if (!board) {
       throw new HttpException('No board with this ID found', 404);
     }
@@ -34,12 +34,16 @@ export class BoardsService {
   }
 
   async update(id: string, updateBoardDto: UpdateBoardDto) {
-    const board = await this.boardsRepository.findOne(id);
-    if (!board) {
+     const resultBoard = await this.boardsRepository.findOne(id);
+     if (!resultBoard) {
       throw new HttpException('No board with this ID found', 404);
     }
-    await this.boardsRepository.update(id, updateBoardDto);
-    const newBoard = await this.boardsRepository.findOne(id);
+  const updatedBoard = { ...resultBoard, ...updateBoardDto };
+  
+    await this.boardsRepository.save(updatedBoard);
+    
+    // await this.boardsRepository.update(id, updateBoardDto);
+    const newBoard = await this.boardsRepository.findOne(id, { relations: ['columns'] });
     return newBoard;
   }
 

@@ -5,7 +5,7 @@ import {
     BaseEntity,
     OneToMany,
   } from 'typeorm';
-  import ColumnEntity from './column_entity';
+  import ColumnEntity from './column.entity';
   
   @Entity({ name: 'board' })
   export default class BoardEntity extends BaseEntity {

@@ -17,7 +17,7 @@ export class LoginService {
   async login(createUserDto: CreateUserDto) {
     let candidate = await this.usersService.getUserByLogin(createUserDto.login);
     if(!candidate) {
-      throw new HttpException('invalid login or password***', 403)
+      throw new HttpException('invalid login or password', 403)
     }
     candidate = await this.validateUser(createUserDto);
     return this.generateToken(candidate);

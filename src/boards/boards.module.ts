@@ -3,7 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TasksModule } from "../tasks/tasks.module";
 import { BoardsService } from './boards.service';
 import { BoardsController } from './boards.controller';
-// import { AuthModule } from "../auth/auth.module";
+import { LoginModule } from "../login/login.module";
+
 import Board from './entities/board.entity'
 
 
@@ -11,7 +12,7 @@ import Board from './entities/board.entity'
   imports: [
     forwardRef(() => TasksModule),
     TypeOrmModule.forFeature([Board]),
-    // AuthModule,
+    LoginModule,
   ],
   exports: [
     TypeOrmModule,
