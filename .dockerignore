@@ -1,0 +1,16 @@
+node_modules
+Dockerfile*
+docker-compose*
+.dockerignore
+.git
+.gitignore
+.vscode
+README.md
+test
+build
+doc
+.github
+.eslintignore
+.prettierrc
+.eslintrc.json
+dist
