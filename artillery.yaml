@@ -1,0 +1,35 @@
+config:
+  target: 'http://0.0.0.0:4000'
+  phases:
+    - duration: 60
+      arrivalRate: 10
+scenarios:
+ - flow:
+   - post:
+      url: "/login"
+      json:
+       login: 'admin'
+       password: 'admin'
+      capture:
+       json: "$.token"
+       as: access_token
+      expect:
+        - statusCode: 201 
+   - post:
+      url: "/users"
+      json:
+       name: 'admin1'
+       login: 'admin1'
+       password: 'admin1'
+      headers:
+        Authorization: 'Bearer {{ access_token }}'
+      expect:
+        - statusCode: 201 
+   - get:
+      url: "/users"
+      headers:
+        Authorization: 'Bearer {{ access_token }}'
+      expect:
+        - statusCode: 200    
+      
+

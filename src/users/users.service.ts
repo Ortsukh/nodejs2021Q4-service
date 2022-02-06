@@ -28,18 +28,6 @@ export class UsersService {
     return userDto(user);
   }
 
-  async createAdmin() {
-    const admin = {
-      "name" : "addmin",
-      "login": "admin",
-      "password": "admin"
-    }
-    const hashPassword = await bcrypt.hash(admin.password, 3);
-    admin.password = hashPassword;
-    const user = await this.usersRepository.save(admin);
-    return userDto(user);
-  }
-
   async findAll() {
     const users = await this.usersRepository.find({ where: {} });
     return users.map((user) => userDto(user));

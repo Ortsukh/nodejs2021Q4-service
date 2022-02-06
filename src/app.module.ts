@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { BoardsModule } from './boards/boards.module';
 import { TasksModule } from './tasks/tasks.module';
 import { LoginModule } from './login/login.module';
+import { FileModule } from './file/file.module';
 
 
 @Module({
@@ -28,7 +29,7 @@ import { LoginModule } from './login/login.module';
   cli: {
     migrationsDir: 'dist/migrations'
 }
-}),UsersModule, BoardsModule, TasksModule, LoginModule],
+}),UsersModule, BoardsModule, TasksModule, LoginModule,FileModule],
   controllers: [],
   providers: [],
 })

@@ -27,7 +27,6 @@ export class UsersController {
   }
 
   @Put(':id')
-  @UsePipes(ValidationPipe)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
